@@ -1,0 +1,67 @@
+[gd_scene load_steps=8 format=3 uid="uid://bjdp2k87j0mji"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_tx5ow"]
+[ext_resource type="Texture2D" uid="uid://lyu6t2r2h7na" path="res://recursos/mengo 1.png" id="2_iiddi"]
+[ext_resource type="Texture2D" uid="uid://vu5xy0i2re0m" path="res://recursos/mengo 2.png" id="3_smimx"]
+[ext_resource type="Texture2D" uid="uid://cia64e03s5sdo" path="res://recursos/mengo 3.png" id="4_bwqgp"]
+[ext_resource type="Texture2D" uid="uid://dfgvkmqtatw7r" path="res://recursos/mengo 4.png" id="5_usmvi"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_clvr1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_iiddi")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_iiddi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_smimx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_bwqgp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_usmvi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_smimx")
+}],
+"loop": false,
+"name": &"flap",
+"speed": 11.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7aiqj"]
+radius = 54.0833
+
+[node name="Player" type="RigidBody2D" groups=["Player"]]
+position = Vector2(192, 207)
+script = ExtResource("1_tx5ow")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(10, -7)
+scale = Vector2(0.668256, 0.75491)
+sprite_frames = SubResource("SpriteFrames_clvr1")
+animation = &"flap"
+autoplay = "default"
+frame = 4
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(7, 0)
+shape = SubResource("CircleShape2D_7aiqj")
+
+[node name="DetectaSuelo" type="Area2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="DetectaSuelo"]
+position = Vector2(7, 0)
+shape = SubResource("CircleShape2D_7aiqj")
+
+[connection signal="body_entered" from="DetectaSuelo" to="." method="_on_detecta_suelo_body_entered"]

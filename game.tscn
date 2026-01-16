@@ -1,0 +1,131 @@
+[gd_scene load_steps=17 format=3 uid="uid://by83n4st7jnx1"]
+
+[ext_resource type="Script" path="res://game.gd" id="1_hkn6y"]
+[ext_resource type="Texture2D" uid="uid://5u66futhhbq4" path="res://recursos/sprites/background-day.png" id="2_4t5ep"]
+[ext_resource type="PackedScene" uid="uid://bjdp2k87j0mji" path="res://player.tscn" id="2_824ce"]
+[ext_resource type="Script" path="res://ParallaxBackground.gd" id="2_wb7ae"]
+[ext_resource type="Texture2D" uid="uid://bp8ylueanynyk" path="res://recursos/sprites/base.png" id="3_403nb"]
+[ext_resource type="Texture2D" uid="uid://b857hmt8li3y7" path="res://recursos/sprites/sun.png" id="3_bkrlq"]
+[ext_resource type="Script" path="res://ParallaxBackground2.gd" id="5_nlku2"]
+[ext_resource type="Script" path="res://Message.gd" id="9_sy164"]
+[ext_resource type="Texture2D" uid="uid://pc0ktwqo14bf" path="res://recursos/celiac cat.png" id="9_wks20"]
+[ext_resource type="Texture2D" uid="uid://de3hegqvsvx7t" path="res://recursos/sprites/gameover.png" id="10_7fugb"]
+[ext_resource type="AudioStream" uid="uid://7tcg4brwdt5j" path="res://recursos/muere.wav" id="12_0o0xl"]
+[ext_resource type="AudioStream" uid="uid://cpdi5q2d3susp" path="res://recursos/miau.wav" id="13_ntbud"]
+[ext_resource type="AudioStream" uid="uid://1i81hrxhymnw" path="res://recursos/pedo.wav" id="14_3rymb"]
+[ext_resource type="FontFile" uid="uid://npefoxuc8g1y" path="res://recursos/Flappy-Bird.ttf" id="14_hb46p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tdfni"]
+size = Vector2(793.5, 163)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wedjq"]
+font = ExtResource("14_hb46p")
+font_size = 120
+font_color = Color(0.835294, 0.0352941, 0.227451, 1)
+outline_size = 10
+outline_color = Color(0.0980392, 0.0980392, 0.0980392, 1)
+shadow_size = 22
+shadow_color = Color(0.372549, 0.372549, 0.372549, 0.764706)
+
+[node name="Game" type="Node"]
+script = ExtResource("1_hkn6y")
+
+[node name="Player" parent="." instance=ExtResource("2_824ce")]
+
+[node name="CreaObstaculosTimer" type="Timer" parent="."]
+wait_time = 2.785
+autostart = true
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+script = ExtResource("2_wb7ae")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(0, 1)
+motion_mirroring = Vector2(600, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+position = Vector2(764, 650)
+scale = Vector2(5.32639, 2.52661)
+texture = ExtResource("2_4t5ep")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(0, 1)
+motion_mirroring = Vector2(369, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(520.875, 1201)
+scale = Vector2(3.08408, 1.53571)
+texture = ExtResource("3_403nb")
+
+[node name="ParallaxBackground2" type="ParallaxBackground" parent="."]
+script = ExtResource("5_nlku2")
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground2"]
+position = Vector2(1, 4)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground2/ParallaxLayer3"]
+self_modulate = Color(0.811765, 0.811765, 0.811765, 1)
+texture_filter = 1
+position = Vector2(566, 108)
+scale = Vector2(0.234204, 0.221264)
+texture = ExtResource("3_bkrlq")
+
+[node name="Suelo" type="StaticBody2D" parent="." groups=["Obstaculo"]]
+position = Vector2(333, 518)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Suelo"]
+position = Vector2(58.25, 683.5)
+shape = SubResource("RectangleShape2D_tdfni")
+
+[node name="Techo" type="StaticBody2D" parent="."]
+position = Vector2(333, 518)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Techo"]
+position = Vector2(57, -600)
+shape = SubResource("RectangleShape2D_tdfni")
+
+[node name="Message" type="Sprite2D" parent="."]
+process_mode = 3
+visible = false
+z_index = 2
+position = Vector2(353, 804.094)
+scale = Vector2(3.43614, 3.21419)
+texture = ExtResource("9_wks20")
+script = ExtResource("9_sy164")
+
+[node name="Gameover" type="Sprite2D" parent="Message"]
+visible = false
+z_index = 2
+position = Vector2(3.49229, -192.302)
+scale = Vector2(1.06709, 1.58524)
+texture = ExtResource("10_7fugb")
+
+[node name="HitAudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("12_0o0xl")
+volume_db = -17.333
+
+[node name="PointAudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("13_ntbud")
+volume_db = -13.565
+
+[node name="FlapAudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_3rymb")
+
+[node name="ScoreLabel" type="Label" parent="."]
+z_index = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -30.0
+offset_top = 4.0
+offset_right = 29.0
+offset_bottom = 114.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "0"
+label_settings = SubResource("LabelSettings_wedjq")
+
+[connection signal="timeout" from="CreaObstaculosTimer" to="." method="_on_crea_obstaculos_timer_timeout"]
